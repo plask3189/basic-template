@@ -21,14 +21,20 @@ body {
 .title-area {
     color: black; 
     text-align: center;
-    font-size: 1.0em;
+    font-size: 0.5em;
     font-weight: 50;
 
 }
-.myDivClassName{
+.box-for-text{
     background-color: rgb(211, 213, 211);
-    height: 50px;
+    height: 30px;
     padding: 20px;
+}
+
+.sleep-Av{
+    background-color: rgb(211, 213, 211);
+    height: 10px;
+    padding: 5px;
 }
 
 .grid-container {
@@ -47,17 +53,18 @@ body {
 
 .right {
     background-color: #abb1aa; 
+    font-size: 0.85em;
 }
 
 .input-box {
   width: 100vh/2;
-  height: 50px;
-  padding: 20px;
+  height: 30px;
+  padding: 10px;
 }
 
 .give-me-space {
-    margin-bottom: 0.5em;
-    margin-top: 0.2em;
+    margin-bottom: 0.8em;
+    margin-top: 0.9em;
 }
 
 
@@ -76,6 +83,10 @@ img {
         margin-left: auto;
         margin-right: auto;
     }
+
+.bold {
+    font-weight: bold;
+}
 </style>
 <!------------------------------------------------------->
 
@@ -85,24 +96,24 @@ img {
       <h4> User: Kate Plas</h4>
     </header>
     <div class = "grid-container">
-        <style> h2 {text-align: center;}</style>
-        <div class = "left sub-area">
-            <h2> Today's Entry </h2>
+        <style> h3 {text-align: center;}</style>
+        <div class = "left sub-area" id = today>
+            <h3> Add an Entry for Today</h3>
             <p>Entry Time: 14:12 on Friday, August 30, 2024</p>
-            <div class= "give-me-space ">
-            <button type="button" >Upload Image</button>
-            <img src="harp_and_lily.png"  style="width:200px; height: 240px;"/>
+            <div class= "give-me-space">
+            <button class= "give-me-space" type="button" >Upload Image</button>
+            <img src="harp_and_lily.png"  style="width:200px; height: 240px;" id="imageUpload"/>
             </div>
             <div> 
                 <label for="username">Journal Entry:</label>
-                <input type="text" id="username" name="username" class = "input-box">
+                <input type="text" id="journalEntryText" class = "input-box">
             </div>
             <div>
                 <svg width="200" height="2">
                     <line x1="0" y1="0" x2="400" stroke="black" stroke-width="2"/>
                 </svg>
             </div>
-            <p class="myDivClassName"> Inspirational text: I at least try to play my harp. Be patient and you can do this. </p>
+            <p class="box-for-text"> Inspirational text: I at least try to play my harp. Be patient and you can do this. </p>
             <div>
                 <svg width="200" height="2">
                     <line x1="0" y1="0" x2="400" stroke="black" stroke-width="2"/>
@@ -110,41 +121,45 @@ img {
             </div>
             <div class="dropdown-container">
                 <p> How many hours of sleep did you get last night? </p>
-                <select id="number-select" name="number-select">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
+                <select id="sleepHours">
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
                 </select>
             </div>
-            <div class="checkbox-container">
-            
+            <div>
+    <!-----------------------------------------FEELING-------------------------------------->
     <label>How do you feel today? Check all that apply: </label>
     <div class="checkbox-group">
-        <label for="option1">
-            <input type="checkbox" id="option1" name="option1" value="Option 1">
-            Okay
-        </label>
-        <label for="option2">
-            <input type="checkbox" id="option2" name="option2" value="Option 2">
-            Alright
-        </label>
-        <label for="option3">
-            <input type="checkbox" id="option3" name="option3" value="Option 3">
-            Fine
-        </label>
-        <label for="option4">
-            <input type="checkbox" id="option4" name="option4" value="Option 4">
-            Tired
-        </label>
-
+        <label for="option1"> Okay</label>
+        <input type="checkbox" id="option1">
+        <div id="option1_id"></div>
+    
+        <label for="option2"> Alright</label>
+        <input type="checkbox" id="option2">
+        <div id="option2_id"></div>
+    
+        <label for="option3"> Fine</label>
+        <input type="checkbox" id="option3">
+        <div id="option3_id"></div>
     </div>
-</div>
-        </div>
+    
+
+    <button class= "give-me-space"  type="button" id="todaySubmit"> Submit Today's Entries </button>
+
+    <!---------------------------------------------------------------------->
+    </div> 
+    </div> <!-- End of add entry for today-->
         <!-----------------------------------Progress Page------------->
         <div class ="right sub-area" >
-            <h2> Your Progress History</h2>
+            <h3> Your Progress History</h3>
+            <div class="sleep-Av"> Sleep Average: </div> 
+            <div id="entryHistory"></div>
+            <div id="todayEntry"></div>
+
         </div>
+        
         <!--------------------------------------------------------->
     </div>
 
