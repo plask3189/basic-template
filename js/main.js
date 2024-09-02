@@ -80,7 +80,10 @@ function triggerTodaySubmit() {
 
 
 document.getElementById("sleepHours").addEventListener("change", triggerTodaySubmit);
-document.getElementById("sleepHours").addEventListener("change", displaySleepAverage);
+document.getElementById("sleepHours").addEventListener("change", showAvSleepHrs);
+document.getElementById("option1").addEventListener("change", showCountFeelings);
+document.getElementById("option2").addEventListener("change", showCountFeelings);
+document.getElementById("option3").addEventListener("change", showCountFeelings);
 document.getElementById("journalEntryText").addEventListener("change", triggerTodaySubmit);
 document.getElementById("imageUpload").addEventListener("change", triggerTodaySubmit);
 document.getElementById("option1").addEventListener("change", triggerTodaySubmit);
@@ -109,6 +112,8 @@ document.getElementById("todaySubmit").addEventListener("click", function() {
     }
 
     displayEntries();  // Calls after adding or updating the entry
+    showCountFeelings();
+
 });
 
 
@@ -120,53 +125,88 @@ function displayEntries() {
         const entry = entries[i];
         console.log(entry.journalText);
         
-        const entryDiv = document.createElement("div");
-        entryDiv.classList.add("entry");
+        const entryForDay = document.createElement("div");
+        entryForDay.classList.add("entry");
         const dateVal = document.createElement("p");
         dateVal.textContent = `Date: ${entry.date}`;
-        entryDiv.appendChild(dateVal);
+        entryForDay.appendChild(dateVal);
         const journalParagraph = document.createElement("p");
         journalParagraph.textContent = `Journal: ${entry.journalText}`;
-        entryDiv.appendChild(journalParagraph);
+        entryForDay.appendChild(journalParagraph);
         const sleepVal = document.createElement("p");
         sleepVal.textContent = `Hours of Sleep: ${entry.hoursOfSleep}`;
-        entryDiv.appendChild(sleepVal);
+        entryForDay.appendChild(sleepVal);
         const feelingsVal = document.createElement("p");
         feelingsVal.textContent = `Feelings: ${entry.feelings}`;
-        entryDiv.appendChild(feelingsVal);
+        entryForDay.appendChild(feelingsVal);
         
-        entryHistory.appendChild(entryDiv);
+        entryHistory.appendChild(entryForDay);
 
         const hr = document.createElement("hr"); // makes the line between each entry
         entryHistory.appendChild(hr);
         if (entry.date == "Today") {
-            entryDiv.classList.add("bold");
+            entryForDay.classList.add("bold");
         }
     }
 }
 
-function calculateSleepAverage() {
+function avSleepHrs() {
     let sleepHoursList = [];
     for (let i = 0; i < entries.length; i++) {
         sleepHoursList.push(entries[i].hoursOfSleep);
     }
     console.log(sleepHoursList);
     let total = 0;
-    for (let i = 0; i < sleepHoursList.length; i++) {
-        total += sleepHoursList[i];  // Sum all values in the array
+    for (let i= 0; i < sleepHoursList.length; i++) {
+        total = total + sleepHoursList[i]; 
     }
 
-    let average = total / sleepHoursList.length;  // Calculate the average
+    let average = total / sleepHoursList.length;
     return average;
 }
 
-function displaySleepAverage() {
-    const sleepAverage = calculateSleepAverage();
+function showAvSleepHrs() {
+    const sleepAverage = avSleepHrs();
     console.log("Average hours of sleep:", sleepAverage);
-    document.querySelector('.sleep-Av').textContent = `Sleep Average: ${sleepAverage} hours`;
+    document.querySelector('.sleep-Av').textContent = `You've had an average ${sleepAverage} hours of sleep.`;
+}
+showAvSleepHrs();
+displayEntries();
+showCountFeelings();
+
+//Compute the number of days they say they have different feelings (how many days energetic, tired...). 
+function countFeelings(){
+
+    let feelingsList = [];
+    for (let i = 0; i < entries.length; i++) {
+        feelingsList.push(...entries[i].feelings); // list of all the feeligns
+    }
+    console.log(feelingsList); 
+
+    let feelingsCount = {};
+
+    for (let i = 0; i < feelingsList.length; i++) {
+        const feeling = feelingsList[i];
+        if (feelingsCount[feeling]) {
+            feelingsCount[feeling]++;
+        } else {
+            feelingsCount[feeling] = 1;
+        }
+    }
+
+    console.log(feelingsCount);
+    return feelingsCount; 
 }
 
-// Initially display the sleep average
-displaySleepAverage();
-displayEntries();
-
+function showCountFeelings(){
+    let feelingText = '';
+    const feelingsCount = countFeelings(); 
+    console.log(`feelingsCount:`, feelingsCount)
+    for (const feeling in feelingsCount) {
+        console.log(`${feeling}: ${feelingsCount[feeling]} days`);
+        //document.querySelector('.feeling').textContent = `${feeling}: ${feelingsCount[feeling]} days`;
+        feelingText = feelingText + `${feeling}: ${feelingsCount[feeling]} days<br>`; 
+    }
+    document.querySelector('.feeling').innerHTML = feelingText;
+    //document.querySelector('.feeling').textContent = `Feeling counts ${feelingsCount}:`;
+}
